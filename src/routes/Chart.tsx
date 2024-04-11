@@ -18,8 +18,14 @@ interface ChartProps {
 }
 
 function Chart({coinId}: ChartProps) {
-  const {isLoading, data} = useQuery<IHistorical[]>(["ohlcv", coinId], () => fetchCoinHistory(coinId))
-  console.log(data)
+  const {isLoading, data} = useQuery<IHistorical[]>(
+    ["ohlcv", coinId], 
+    () => fetchCoinHistory(coinId),
+    {
+      refetchInterval: 100000
+    }
+  )
+
   return <div> { isLoading 
     ?"Loading chart..." 
     : <ApexChart 
