@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link, Route, Switch, useLocation, useParams, useRouteMatch } from "react-router-dom"
 import styled from "styled-components";
 import Price from "./Price";
@@ -75,6 +74,12 @@ const Tab = styled.span<{ $isActive: boolean }>`
   a {
     display: block;
   }
+`;
+
+const HomeBtn = styled.button`
+  width: 40px;
+  height: 40px;
+  font-size: 22px;
 `;
 
 
@@ -160,7 +165,7 @@ interface PriceData {
   quotes:        Quotes;
 }
 
-interface Quotes {
+export interface Quotes {
   USD: Usd;
 }
 
@@ -204,43 +209,30 @@ function Coin() {
   const {isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId], 
     () => fetchCoinInfo(coinId),
-    {
-      refetchInterval: 100000
-    }
+    // {
+    //   refetchInterval: 100000
+    // }
   );
-  const {isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(["tickers",coinId], () => fetchCoinTickers(coinId))
-
-  // const [loading, setLoading] = useState(true);
-  // const [info, setInfo] = useState<InfoData>();
-  // const [priceInfo, setPriceInfo] = useState<PriceData>();
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const infoData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-  //     ).json();
-
-  //     const priceData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-  //     ).json()
-
-  //     setInfo(infoData);
-  //     setPriceInfo(priceData);
-  //     setLoading(false);
-  //   })()
-  // }, [coinId])
-
-  const loading = infoLoading || tickersLoading
-
+  const {isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(["tickers",coinId], () => fetchCoinTickers(coinId));
+  const isLoading = infoLoading || tickersLoading;
   return <Container>
     <Helmet>
-      <title>{state?.name ? state.name : loading ? "Loading.." : infoData?.name}</title>
+      <title>{state?.name ? state.name : isLoading ? "Loading.." : infoData?.name}</title>
     </Helmet>
+
+    <div>
+      <HomeBtn>
+        <Link to={{pathname: `/`}}>
+          &#8962;
+        </Link>
+      </HomeBtn>
+    </div>
+
     <Header>
-      <Title>{state?.name ? state.name : loading ? "Loading.." : infoData?.name}</Title>
+      <Title>{state?.name ? state.name : isLoading ? "Loading.." : infoData?.name}</Title>
     </Header>
 
-    {loading 
+    {isLoading 
       ? <Loader>Loading...</Loader> 
       : <>
           <Overview>
@@ -254,7 +246,7 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <span>Price</span>
-              <span>{tickersData?.quotes.USD.price.toFixed(3)}</span>
+              <span>${tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
@@ -280,7 +272,7 @@ function Coin() {
 
           <Switch>
             <Route path={`/:coinId/price`}>
-              <Price />
+              <Price quotes={tickersData?.quotes}/>
             </Route>
             <Route path={`/:coinId/chart`}>
               <Chart coinId={coinId} />
