@@ -53,30 +53,6 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
-const TopBar = styled.div`
-  display: flex;
-  width: 100%;
-  height: 40px;
-  box-sizing: border-box;
-  align-items: center;
-`;
-
-const ToggleBtn = styled.div`
-  margin-left: auto;
-`;
-const ToggleItem = styled.button<{$active: boolean}>`
-  background-color: transparent;
-  border-width: 1px;
-  border-style: solid;
-  border-color: ${props => !props.$active ? props.theme.textColor : props.theme.accentColor};
-  color: ${props => !props.$active ? props.theme.textColor : props.theme.accentColor};
-  &:first-child {
-    border-radius: 10px 0 0 10px;
-  }
-  &:last-child {
-    border-radius: 0 10px 10px 0;
-  }
-`
 
 interface ICoin {
   id: string;
@@ -90,7 +66,7 @@ interface ICoin {
 
 function Coins() {
   const {isLoading, data} = useQuery<ICoin[]>("allCoins", fetchCoins);
-  
+
   return <Container>
     <Helmet>
       <title>코인</title>
