@@ -2,8 +2,12 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { categoryState, toDoState } from "../atoms";
 import { useForm } from "react-hook-form";
 
+enum EForm {
+  empty = "",
+  toDo = "toDo"
+}
 interface IForm {
-  toDo: string;
+  toDo: EForm;
 }
 
 function CreateToDo() {
@@ -16,17 +20,17 @@ function CreateToDo() {
       {text: toDo, id: Date.now(), category},
       ...prev
     ]);
-    setValue("toDo", "");
+    setValue(EForm.toDo, EForm.empty);
   };
 
   return (
     <form onSubmit={handleSubmit(handleValid)}>
-        <input 
-          {...register("toDo", {required: "Please write a To Do"})} 
-          placeholder="Write a to do"
-        />
-        <button>Add</button>
-      </form>
+      <input 
+        {...register(EForm.toDo, {required: "Please write a To Do"})} 
+        placeholder="Write a to do"
+      />
+      <button>Add</button>
+    </form>
   )
 }
 
