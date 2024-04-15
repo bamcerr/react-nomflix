@@ -9,6 +9,14 @@ function ToDo({text, category, id}: IToDo) {
     const {
       currentTarget: {name}
     } = event;
+
+    setToDos(prev => {
+      const targetIndex = prev.findIndex(toDo => toDo.id === id)
+      const oldToDo = prev[targetIndex];
+      const newToDo = {text, id, target: name};
+      return prev;
+
+    })
   };
 
   return (
@@ -19,10 +27,10 @@ function ToDo({text, category, id}: IToDo) {
       )}
       {category !== 'TO_DO' && (
         <button name="TO_DO" onClick={onClick}>To Do</button>
-      )} 
+      )}
       {category !== 'DONE' && (
         <button name="DONE" onClick={onClick}>Done</button>
-      )} 
+      )}
     </li>
   )
 }
