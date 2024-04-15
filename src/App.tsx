@@ -2,20 +2,13 @@ import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from 'styled-components';
-import { lightTheme, darkTheme } from './theme'
-import { Dispatch, SetStateAction, createContext, useState } from 'react';
-import styled from "styled-components";
-
+import { lightTheme, darkTheme } from './theme';
+import { useState } from 'react';
 
 export enum Theme {
   light,
   dark
 }
-export interface ITheme {
-  theme: Theme;
-  setTheme: (theme:Theme) => Dispatch<SetStateAction<Theme>> | void;
-}
-export const ThemeContext = createContext<ITheme>({theme: Theme.light, setTheme: () => {}})
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -82,56 +75,17 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const TopBar = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-  width: 100%;
-  height: 40px;
-  box-sizing: border-box;
-  align-items: center;
-  border-bottom: 1px solid #666;
-  background-color: #666;
-  padding: 0 10px;
-`;
-
-const ToggleBtn = styled.div``;
-const Label = styled.span`
-  margin-right: 5px;
-  font-size: 12px;
-`;
-const ToggleItem = styled.button<{$active: boolean}>`
-  background-color: transparent;
-  border-width: 1px;
-  border-style: solid;
-  border-color: ${props => !props.$active ? props.theme.textColor : props.theme.accentColor};
-  color: ${props => !props.$active ? props.theme.textColor : props.theme.accentColor};
-  font-size: 12px;
-  &:first-child {
-    border-radius: 10px 0 0 10px;
-  }
-  &:last-child {
-    border-radius: 0 10px 10px 0;
-  }
-`
-
 function App() {
-  const [theme, setTheme] = useState<Theme>(Theme.light);
+  const [isDark, setIsDark] = useState(false);
+  const toggleDark = () => setIsDark((current) => !current);
 
   return <>
-  <ThemeContext.Provider value={{theme: theme, setTheme: setTheme}}>
-    <ThemeProvider theme={ theme === Theme.light ? lightTheme : darkTheme}>
+    <ThemeProvider theme={ isDark ? darkTheme : lightTheme}>
+      <button onClick={toggleDark}>Toggle Mode</button>
       <GlobalStyle />
-      <TopBar>
-        <ToggleBtn>
-          <ToggleItem $active={theme === Theme.dark} onClick={() => setTheme(Theme.dark)}>Dark</ToggleItem>
-          <ToggleItem $active={theme === Theme.light} onClick={() => setTheme(Theme.light)}>Light</ToggleItem>
-        </ToggleBtn>
-        <Label>Appearance</Label>
-      </TopBar>
       <Router />
       <ReactQueryDevtools />
     </ThemeProvider>
-  </ThemeContext.Provider>
   </>
 }
 
