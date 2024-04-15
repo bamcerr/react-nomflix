@@ -13,9 +13,12 @@ function ToDo({text, category, id}: IToDo) {
     setToDos(prev => {
       const targetIndex = prev.findIndex(toDo => toDo.id === id)
       const oldToDo = prev[targetIndex];
-      const newToDo = {text, id, target: name};
-      return prev;
-
+      const newToDo = {text, id, category: name as any};
+      return [
+        ...prev.slice(0, targetIndex),
+        newToDo,
+        ...prev.slice(targetIndex + 1)
+      ]
     })
   };
 
