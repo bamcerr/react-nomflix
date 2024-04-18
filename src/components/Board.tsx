@@ -1,7 +1,6 @@
 import { Droppable } from "react-beautiful-dnd";
 import { styled } from "styled-components";
 import DragableCard from "./DragableCard";
-import { useRef } from "react";
 import { ITodo, toDoState } from "../atoms";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
@@ -44,8 +43,18 @@ const Area = styled.div<IAreaProps>`
 
 const Form = styled.form`
   width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
   input {
-    width: 100%;
+    font-size: 16px;
+    border: 0;
+    background-color: white;
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 0 auto;
   }
 `;
 

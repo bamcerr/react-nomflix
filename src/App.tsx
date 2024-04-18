@@ -23,10 +23,17 @@ const Boards = styled.div`
   gap: 10px;
 `;
 
+// input style
+// local storage
+// delete task
+// change board order
+//  board state
+// create board
+
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
   const onDragEnd: OnDragEndResponder = (info) => {
-    const {destination, draggableId, source} = info;
+    const {destination, source} = info;
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
       setToDos((allBoards => {
