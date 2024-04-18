@@ -21,7 +21,7 @@ interface IDraggableCardProps {
   index: number;
 }
 
-function DraggableCard({ toDoId,toDoText, index }: IDraggableCardProps) {
+function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
   
   return <Draggable draggableId={toDoId} index={index}>
     {(magic, snapshot) => (
