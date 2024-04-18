@@ -17,7 +17,7 @@ interface IDraggableCardProps {
 
 function DraggableCard({ toDo, index }: IDraggableCardProps) {
   
-  return <Draggable key={toDo} draggableId={toDo} index={index}>
+  return <Draggable draggableId={toDo} index={index}>
     {(magic) => (
       <Card ref={magic.innerRef} {...magic.dragHandleProps} {...magic.draggableProps}>
         {toDo}
