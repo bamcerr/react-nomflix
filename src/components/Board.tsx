@@ -31,7 +31,11 @@ function Board({toDos, boardId}: IBoardProps) {
       <Title>{boardId}</Title>
       <Droppable droppableId={boardId}>
         {(magic) => (
-          <div ref={magic.innerRef} {...magic.droppableProps}>
+          <div 
+          style={{backgroundColor: "red"}}
+          ref={magic.innerRef} 
+          {...magic.droppableProps}
+          >
             {toDos.map((toDo, index) => (
               <DragableCard key={toDo} toDo={toDo} index={index} />
             ))}
