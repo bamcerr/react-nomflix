@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { motion } from "framer-motion"
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -18,6 +19,7 @@ const Box = styled.div`
 
 function App() {
   return (<Wrapper>
+    <motion.div></motion.div>
     <Box />
   </Wrapper>)
 }
