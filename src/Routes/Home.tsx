@@ -3,7 +3,7 @@ import { IGetMoviesResult, getMovies } from "../api"
 import { styled } from "styled-components";
 import { makeImagePath } from "../utils";
 import { useState } from "react";
-import { AnimatePresence, delay, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { useHistory, useRouteMatch } from "react-router-dom";
 
 
@@ -81,6 +81,25 @@ const Info = styled(motion.div)`
   }
 `;
 
+const Overlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+`;
+
+const BigMovie = styled(motion.div)`
+  position: absolute;
+  width: 40vw;
+  height: 80vh;
+
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+`;
+
 const rowVariants = {
   hidden: {
     x: window.outerHeight + 5
@@ -125,6 +144,7 @@ function Home() {
   const history = useHistory();
   const bigMovieMatch = useRouteMatch<{movieId: string}>("/movies/:movieId");
   const { data, isLoading } = useQuery<IGetMoviesResult>({queryKey:["movies", "nowPlaying"], queryFn:getMovies});
+  const { scrollY } = useScroll();
 
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
@@ -142,6 +162,8 @@ function Home() {
   const onBoxClicked = (movieId: number) => {
     history.push(`/movies/${movieId}`);
   }
+
+  const onOverlayClick = () => history.push('/');
 
   const movies = data?.results.slice(1).slice(offset * index, offset * index + offset);
   return(
@@ -189,23 +211,17 @@ function Home() {
             </AnimatePresence>
           </Slider>
           <AnimatePresence>
-            {bigMovieMatch ? (
-              <motion.div
+            {bigMovieMatch ? <>
+              <Overlay 
+                onClick={onOverlayClick}
+                exit={{ opacity: 0}}
+                animate={{ opacity: 1}}
+              />
+              <BigMovie
+                style={{top: scrollY.get() + 100}}
                 layoutId={bigMovieMatch.params.movieId}
-                style={{
-                  position: "absolute",
-                  width: "40vw",
-                  height: "80vw",
-                  backgroundColor: "red",
-                  top: 50,
-                  left: 0,
-                  right: 0,
-                  margin: "0 auto"
-                }}
-              >
-                
-              </motion.div>
-            ) : null}
+              >hello</BigMovie>
+            </> : null}
           </AnimatePresence>
         </>
       }
