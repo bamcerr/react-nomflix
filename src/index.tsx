@@ -6,6 +6,7 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './theme';
 import { createGlobalStyle } from "styled-components";
 import { HelmetProvider, Helmet } from "react-helmet-async";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -62,6 +63,8 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 300;
     font-family: 'Source Sans Pro', sans-serif;
     line-height: 1.2;
+    color: ${(props) => props.theme.white.darker};
+    background-color: black;
   }
   a {
     text-decoration:none;
@@ -70,18 +73,29 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
+
+const client = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+    },
+  },
+});
+
 root.render(
   <React.StrictMode>
     <RecoilRoot>
-      <ThemeProvider theme={theme}>
-        <HelmetProvider>
-          <Helmet>
-            <style type="text/css">@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');</style>
-          </Helmet>
-          <GlobalStyle />
-          <App />
-        </HelmetProvider>
-      </ThemeProvider>
+      <QueryClientProvider client={client}>
+        <ThemeProvider theme={theme}>
+          <HelmetProvider>
+            <Helmet>
+              <style type="text/css">@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');</style>
+            </Helmet>
+            <GlobalStyle />
+            <App />
+          </HelmetProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
     </RecoilRoot>
   </React.StrictMode>
 );
