@@ -3,7 +3,7 @@ import { IGetMoviesResult, getMovies } from "../api"
 import { styled } from "styled-components";
 import { makeImagePath } from "../utils";
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, delay, motion } from "framer-motion";
 
 
 const Wrapper = styled.div`
@@ -58,6 +58,12 @@ const Box = styled(motion.div)<{$bgPhoto: string}>`
   background-position: center;
   height: 200px;
   font-size: 66px;
+  &:first-child {
+    transform-origin: center left;
+  }
+  &:last-child {
+    transform-origin: center right;
+  }
 `;
 
 const rowVariants = {
@@ -69,6 +75,21 @@ const rowVariants = {
   },
   exit: {
     x: -window.outerHeight - 5
+  }
+}
+
+const boxVariants = {
+  normal: {
+    scale: 1,
+  },
+  hover: {
+    scale: 1.3,
+    y: -50,
+    transition: {
+      delay: 0.5,
+      duration: 0.3,
+      type: "tween"
+    }
   }
 }
 
@@ -121,6 +142,10 @@ function Home() {
                   <Box 
                     key={movie.id}
                     $bgPhoto={makeImagePath(movie.backdrop_path, 'w500')}
+                    variants={boxVariants}
+                    initial="normal"
+                    whileHover={"hover"}
+                    transition={{type: "tween"}}
                   ></Box>
                 )}
               </Row>
