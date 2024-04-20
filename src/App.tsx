@@ -1,6 +1,27 @@
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./Routes/Home";
+import TvShow from "./Routes/TvShow";
+import Search from "./Routes/Search";
+import Header from "./Components/Header";
+
 
 function App() {
-  return <div>hello</div>
+  return (
+    <Router>
+      <Header />
+      <Switch>
+        <Route path="/home">
+          <Home />
+        </Route>
+        <Route path="/tvshow">
+          <TvShow />
+        </Route>
+        <Route path="/search">
+          <Search />
+        </Route>
+      </Switch>
+    </Router>
+  )
 }
 
 export default App;
