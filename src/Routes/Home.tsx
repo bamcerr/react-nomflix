@@ -3,13 +3,11 @@ import { useHistory } from "react-router-dom";
 import { useHomeQuery } from "../Hooks/useMultipleQuery";
 import { IMovie, IMovieList } from "../api";
 import VideoSlider from "../Components/VideoSlider";
-import MovieDetailModal from "../Components/VideoModal";
 import Spacer from "../Components/Spacer";
 import Banner from "../Components/Banner";
 import { ContentWrapper, Wrapper } from "../Components/Layout";
 import { Loader } from "../Components/Loader";
 import { IVideoItemState } from "../Components/VideoItem";
-import { useState } from "react";
 import MovieDetail from "./MovieDetail";
 
 function Home() {
