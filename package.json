@@ -26,7 +26,10 @@
     "recoil-persist": "^5.1.0",
     "styled-components": "^6.1.8",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@types/react-beautiful-dnd": "^13.1.8",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/styled-components": "^5.1.34"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -53,11 +56,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/react-beautiful-dnd": "^13.1.8",
-    "@types/react-router-dom": "^5.3.3",
-    "@types/styled-components": "^5.1.34"
   },
   "homepage": "https://bamcerr.github.io/react-nomflix"
 }
